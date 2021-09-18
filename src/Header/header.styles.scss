@@ -1,0 +1,32 @@
+.header {
+    height: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+.logo-container {
+    width: 2rem;
+    height: 100%;
+    padding: 1.5rem;
+    object-fit: contain;
+    margin-left: 2rem;
+}
+
+.logo {
+    width: 4rem;
+}
+
+.menu-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.option {
+    padding: 0.8rem 1rem;
+}

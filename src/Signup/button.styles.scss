@@ -1,0 +1,23 @@
+$bg-color-before: white;
+$bg-color-after: black;
+
+.custom-button {
+    min-width: 165px;
+    width: auto;
+    height: 50px;
+    letter-spacing: 0.5px;
+    line-height: 50px;
+    padding: 0 25px 0 25px;
+    background-color: $bg-color-before;
+    color: $bg-color-after;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-weight: bolder;
+    border: 1px solid black;
+
+    &:hover {
+        background-color: $bg-color-after;
+        color: $bg-color-before;
+    }
+}
