@@ -7,7 +7,7 @@ export default function FormInput ({label, changeHandler, ...otherProps}) {
             <input className='form-input' onChange={changeHandler} {...otherProps} />
             {
                 label?
-                (<label className={`${otherProps.value.length} 'shrink' : ''} form-input-label`}>{label}</label>): null
+                (<label className={`${otherProps.value.length? 'shrink' : ''} form-input-label`}>{label}</label>): null
             }
         </div>);
 };
