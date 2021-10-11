@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import CustomButton from './CustomButton';
 import FormInput from './FormInput';
 import './signup.styles.scss';
+import SignIn from '../Auth/auth_phone_signin';
 
 export default function Signup (props) {
-    const [login, setLogin] = useState({email: '', password: ''});
+    const [login, setLogin] = useState({email: '', phone: '', password: ''});
 
     const handleChange = (e) => {
         let {name, value} = e.target;
@@ -20,8 +21,10 @@ export default function Signup (props) {
             <span>Sign in with your email and password</span>
             <form onSubmit={signIn}>
                 <FormInput name='email' type='email' label='Email' value={login.email} changeHandler={handleChange} required></FormInput>
+                <FormInput name='phone' type='phone' label='Phone' value={login.phone} changeHandler={handleChange} required></FormInput>
                 <FormInput name='password' type='password' label='Password' value={login.password} changeHandler={handleChange} required></FormInput>
                 <CustomButton name='Sign in' type='submit'>Sign In</CustomButton>
+                <CustomButton onClick={(e) => SignIn(e)} phone={login.phone}>Sign In with Phone</CustomButton>
             </form>
         </div>
     );
