@@ -1,4 +1,21 @@
-.sign-in {
+.sign-up {
     width: 50vw;
     margin: auto;
+
+    & .header {
+        margin-top: 1em; 
+    }
+
+    & .form {
+        margin-top: 1em;
+    }
+}
+
+.title {
+    margin: 1em 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
 }

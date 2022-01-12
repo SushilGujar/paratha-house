@@ -1,31 +1,90 @@
-import React, {useState} from 'react';
-import CustomButton from './CustomButton';
-import FormInput from './FormInput';
-import './signup.styles.scss';
-import SignIn from '../Auth/auth_phone_signin';
+import React, { useState } from "react";
+import FormInput from "../SignIn/FormInput";
+import "./signup.styles.scss";
+import CustomButton from "../SignIn/CustomButton";
+import { auth } from "../Auth/Firebase.Utils";
 
-export default function Signup (props) {
-    const [login, setLogin] = useState({email: '', phone: '', password: ''});
+export default function SignUp() {
+  const [user, setUser] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const handleChange = (e) => {
-        let {name, value} = e.target;
-        setLogin({...login, [name]: value});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (user.password !== user.confirmPassword) {
+      alert("Passwords do not match");
+      return;
     }
-
-    const signIn = (e) => {
-        e.preventDefault();
+    try {
+      await auth
+        .createUserWithEmailAndPassword(user.email, user.password)
+        .then(userCtx => {
+            userCtx.user.updateProfile({
+                displayName: user.displayName,
+            });
+        })
+        .catch(function(error) {
+            console.log(error.message,7000);
+        });
+      //createUserProfileDocument(authUser, user.displayName);
+      setUser({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return (
-        <div className='sign-in'>
-            <span>Sign in with your email and password</span>
-            <form onSubmit={signIn}>
-                <FormInput name='email' type='email' label='Email' value={login.email} changeHandler={handleChange} required></FormInput>
-                <FormInput name='phone' type='phone' label='Phone' value={login.phone} changeHandler={handleChange} required></FormInput>
-                <FormInput name='password' type='password' label='Password' value={login.password} changeHandler={handleChange} required></FormInput>
-                <CustomButton name='Sign in' type='submit'>Sign In</CustomButton>
-                <CustomButton onClick={(e) => SignIn(e)} phone={login.phone}>Sign In with Phone</CustomButton>
-            </form>
-        </div>
-    );
-};
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  return (
+    <div className="sign-up">
+      <h3 className="title">I do not have an account</h3>
+      <span className="sign-up header">Signup with you email and password</span>
+      <form className="sign-up form" onSubmit={handleSubmit}>
+        <FormInput
+          type="text"
+          name="displayName"
+          value={user.displayName}
+          onChange={handleChange}
+          label="Display Name"
+          required
+        ></FormInput>
+        <FormInput
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          label="email"
+          required
+        ></FormInput>
+        <FormInput
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleChange}
+          label="password"
+          required
+        ></FormInput>
+        <FormInput
+          type="password"
+          name="confirmPassword"
+          value={user.confirmPassword}
+          onChange={handleChange}
+          label="Confirm Passwprd"
+          required
+        ></FormInput>
+        <CustomButton type="submit">SIGN UP</CustomButton>
+      </form>
+    </div>
+  );
+}

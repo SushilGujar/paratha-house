@@ -2,12 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDW7M3vs7cini5t8ky7-LV5zVqtJxIjQ8E",
-    authDomain: "paratha-house.firebaseapp.com",
-    projectId: "paratha-house",
-    storageBucket: "paratha-house.appspot.com",
-    messagingSenderId: "1065555200022",
-    appId: "1:1065555200022:web:56d10735b618596ae08d37",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
     measurementId: "G-D2MGX41HGE"
 };
 
@@ -19,13 +20,13 @@ const Auth_Phone_Signin = (e) => {
     auth.useDeviceLanguage();
     let phone = '6155136362';
     
-    window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+    const recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
         'size': 'invisible',
         'callback': (response) => {
             console.log(`Recaptcha Verified. Result: ${response}`);
         }, auth,
     });
-    const appVerifier = window.recaptchaVerifier;
+    const appVerifier = recaptchaVerifier;
     console.log(`appVerifier: ${appVerifier}`);
     
     signInWithPhoneNumber(auth, phone, appVerifier)
