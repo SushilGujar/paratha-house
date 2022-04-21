@@ -5,13 +5,17 @@ import { connect } from "react-redux";
 import "./App.css";
 
 import Catalog from "./Catalog";
-import Collection from "./Collection/Collection";
+import Shop from "./Collection/Shop/Shop";
 import SignIn from "./SignIn/SignIn";
 import SignUp from "./SignUp/SignUp";
 import Header from "./Header/Header";
+import CheckoutPage from "./Checkout/Checkout";
 
 import { auth, createUserProfileDocument } from "./Auth/Firebase.Utils";
-import { setCurrentUser } from "./redux/Actions/user.action";
+import { setCurrentUser } from "./redux/User/user.action";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/User/user.selector";
+import { emptyCart } from "./redux/Cart/cart.actions";
 
 const Cart = () => (
   <div>
@@ -61,6 +65,7 @@ class App extends React.Component {
   }
 
   logout() {
+    emptyCart();
     auth
       .signOut()
       .then(() => {
@@ -77,7 +82,7 @@ class App extends React.Component {
         <Header></Header>
         <Switch>
           <Route exact path="/" component={Catalog} />
-          <Route exact path="/shop" component={Collection} />
+          <Route path="/shop" component={Shop} />
           <Route
             exact
             path="/signin"
@@ -101,18 +106,20 @@ class App extends React.Component {
             }
           />
           <Route exact path="/cart" component={Cart} />
+          <Route exact path="/checkout" component={CheckoutPage} />
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  emptyCart: () => dispatch(emptyCart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
